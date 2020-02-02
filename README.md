@@ -1,7 +1,7 @@
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 # Description
-Laravel Api with jwt token auth
+<p>Laravel Api with jwt token auth</p>
 vue js single page application
 
 # Installation
