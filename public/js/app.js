@@ -6111,11 +6111,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         password_confirmation: null
       },
       errors: [],
-      res_errors: {
+      responseErrors: {
         email: [],
         password: [],
         password_confirmation: []
-      }
+      },
+      res_err_status: false
     };
   },
   methods: {
@@ -6125,11 +6126,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.user.password && this.user.email && this.validEmail(this.user.email) && this.user.password === this.user.password_confirmation) {
         this.$store.dispatch("register", _objectSpread({}, this.user)).then(function (response) {
           console.log(response);
+          _this.res_err_status = false;
 
           _this.$router.push("/");
         })["catch"](function (error) {
-          this.res_errors = error.response.data.errors;
-          console.log(error.response.data.errors);
+          _this.res_err_status = true;
+          _this.responseErrors = error.response.data.errors;
         });
       }
 
@@ -43394,19 +43396,19 @@ var render = function() {
             ])
           : _vm._e(),
         _vm._v(" "),
-        _vm.res_errors.length
+        _vm.res_err_status
           ? _c("div", { staticClass: "row justify-content-center" }, [
               _c(
                 "ul",
                 { staticClass: "list-group mb-3" },
-                _vm._l(_vm.res_errors, function(error) {
+                _vm._l(_vm.responseErrors, function(error) {
                   return _c(
                     "li",
                     { staticClass: "list-group-item list-group-item-danger" },
                     [
                       _vm._v(
                         "\n                        " +
-                          _vm._s(error) +
+                          _vm._s(error[0]) +
                           "\n                    "
                       )
                     ]

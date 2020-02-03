@@ -36,10 +36,10 @@
                         </li>
                     </ul>
                 </div>
-                <div class="row justify-content-center" v-if="res_errors.length">
+                <div class="row justify-content-center" v-if="res_err_status">
                     <ul class="list-group mb-3">
-                        <li class="list-group-item list-group-item-danger" v-for="error in res_errors">
-                            {{error}}
+                        <li class="list-group-item list-group-item-danger" v-for="error in responseErrors">
+                            {{error[0]}}
                         </li>
                     </ul>
                 </div>
@@ -58,11 +58,12 @@
                     password_confirmation: null
                 },
                 errors: [],
-                res_errors: {
+                responseErrors: {
                     email : [],
                     password : [],
-                    password_confirmation : [],
-                }
+                    password_confirmation : []
+                },
+                res_err_status: false
             }
         },
         methods: {
@@ -70,12 +71,13 @@
                 if(this.user.password && this.user.email && this.validEmail(this.user.email) && this.user.password === this.user.password_confirmation){
                     this.$store.dispatch("register", {...this.user})
                         .then((response) => {
-                            console.log(response)
+                            console.log(response);
+                            this.res_err_status= false;
                             this.$router.push("/");
                         })
-                        .catch(function (error) {
-                            this.res_errors = error.response.data.errors;
-                            console.log(error.response.data.errors)
+                        .catch( (error) => {
+                            this.res_err_status= true;
+                            this.responseErrors = error.response.data.errors;
                         });
                 }
                 this.errors = [];
